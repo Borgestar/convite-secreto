@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Um Convite Especial...</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -12,6 +12,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -21,6 +22,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            width: 100vw;
             overflow: hidden;
             text-align: center;
             color: #333;
@@ -33,43 +35,40 @@
 
         .container {
             background: white;
-            padding: 40px;
-            border-radius: 35px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            max-width: 420px;
+            padding: 25px 20px;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 380px;
             width: 90%;
-            position: relative;
             z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         h1 {
             font-family: 'Fredoka One', cursive;
-            margin-bottom: 20px;
-            font-size: 28px;
+            margin-bottom: 15px;
+            font-size: clamp(20px, 6vw, 26px);
             color: #ff6b81;
+            line-height: 1.2;
         }
 
-        #tituloSuspense {
-            color: #b8860b; 
-        }
+        #tituloSuspense { color: #b8860b; }
 
         p {
-            font-size: 19px;
-            line-height: 1.6;
-            margin-bottom: 25px;
+            font-size: clamp(15px, 4vw, 17px);
+            line-height: 1.4;
+            margin-bottom: 15px;
         }
 
-        .destaque {
-            color: #ff6b81;
-            font-weight: bold;
-        }
+        .destaque { color: #ff6b81; font-weight: bold; }
 
-        /* --- Estilo da Imagem / Placeholder --- */
+        /* --- Imagem Ajustada --- */
         .foto-container {
-            width: 160px;
-            height: 160px;
-            margin: 0 auto 25px auto;
-            position: relative;
+            width: clamp(100px, 30vw, 140px);
+            height: clamp(100px, 30vw, 140px);
+            margin-bottom: 15px;
         }
 
         .imagem-circular {
@@ -77,92 +76,65 @@
             height: 100%;
             border-radius: 50%;
             object-fit: cover;
-            border: 6px solid #ff6b81;
-            background-color: #ffe4e1; /* Fundo caso a imagem falhe */
+            border: 5px solid #ff6b81;
+            background-color: #ffe4e1;
             animation: float 3s ease-in-out infinite;
-            display: block;
         }
 
-        /* SVG da Caixa Misteriosa na Tela 1 */
         .caixa-misteriosa {
-            width: 150px;
-            height: 150px;
-            margin-bottom: 20px;
+            width: 100px;
+            height: 100px;
+            margin-bottom: 15px;
             animation: pulse 2s infinite ease-in-out;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-12px); }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-8px); } }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+
+        /* --- Botões e Área de Interação --- */
+        .botoes-container {
+            width: 100%;
+            height: 120px; /* Espaço fixo para o botão não sumir */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            margin-top: 10px;
         }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.08); }
-        }
-
-        /* --- Botões --- */
         .btn {
-            background-color: #b8860b;
-            color: white;
-            border: none;
-            padding: 16px 32px;
-            font-size: 18px;
+            padding: 12px 24px;
+            font-size: 16px;
             font-family: 'Fredoka One', cursive;
             border-radius: 50px;
+            border: none;
             cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 6px 20px rgba(184, 134, 11, 0.3);
-            display: inline-block;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
-        .btn:hover {
-            transform: scale(1.05);
-            background-color: #a0760a;
+        .btn-abrir {
+            background-color: #b8860b;
+            color: white;
         }
 
         .btn-sim {
-            background-color: #ff6b81 !important;
-            box-shadow: 0 6px 20px rgba(255, 107, 129, 0.4) !important;
-            position: absolute;
-            left: 50%;
-            transform: translateX(-115%);
-        }
-
-        .btn-sim:hover {
-            background-color: #ff4760 !important;
+            background-color: #ff6b81;
+            color: white;
+            z-index: 2;
         }
 
         #btnNao {
             background-color: #ccc;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            color: #666;
             position: absolute;
-            left: 50%;
-            margin-left: 20px;
+            z-index: 1;
+            transition: 0.15s ease-out;
         }
 
-        .botoes-container {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-            position: relative;
-            min-height: 80px;
-        }
-
-        /* --- Controle de Telas --- */
-        .tela {
-            display: none;
-            animation: slideUp 0.8s ease forwards;
-        }
-
-        .tela.ativa {
-            display: block;
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        /* --- Telas --- */
+        .tela { display: none; width: 100%; }
+        .tela.ativa { display: flex; flex-direction: column; align-items: center; }
 
     </style>
 </head>
@@ -177,37 +149,34 @@
                 <rect x="45" y="35" width="10" height="50" fill="#FFD700" />
                 <text x="50" y="75" font-family="Arial" font-size="25" fill="white" text-anchor="middle" font-weight="bold">?</text>
             </svg>
-            <h1 id="tituloSuspense">Você tem um novo convite!</h1>
-            <p>Alguém que te ama muito preparou uma surpresa exclusiva para você.</p>
-            <p>Este convite é destinado apenas a pessoas com um <span style="color: #b8860b; font-weight: bold;">coração de ouro</span>. Está pronta para abrir?</p>
-            <button class="btn" onclick="mostrarRevelacao()">Sim, quero descobrir! 🔒➡️🔓</button>
+            <h1 id="tituloSuspense">Um convite exclusivo!</h1>
+            <p>Alguém que te ama muito enviou uma surpresa preparada com todo o carinho do mundo.</p>
+            <p>Você está pronta para abrir?</p>
+            <button class="btn btn-abrir" onclick="mostrarRevelacao()">Sim, abrir! 🔓</button>
         </div>
 
         <div id="tela2" class="tela">
             <div class="foto-container">
                 <img src="https://images.unsplash.com/photo-1519689680058-324335c77eba?auto=format&fit=crop&w=400" 
-                     alt="Revelação" 
-                     class="imagem-circular" 
-                     onerror="this.style.display='none'; document.getElementById('placeholder-coracao').style.display='flex';">
-                
-                <div id="placeholder-coracao" style="display:none; width:160px; height:160px; border-radius:50%; border:6px solid #ff6b81; background:#ffe4e1; align-items:center; justify-content:center; font-size:50px;">❤️</div>
+                     alt="Revelação" class="imagem-circular" 
+                     onerror="this.style.display='none'; document.getElementById('placeholder').style.display='flex';">
+                <div id="placeholder" style="display:none; width:100%; height:100%; border-radius:50%; border:5px solid #ff6b81; background:#ffe4e1; align-items:center; justify-content:center; font-size:40px;">❤️</div>
             </div>
 
             <h1>Surpresa! Sou eu... ❤️</h1>
-            <p>Ainda sou bem pequenininho(a), mas meus pais me contaram que você é a pessoa mais doce e incrível do mundo.</p>
-            <p>Eles querem que você me ensine sobre a vida e segure a minha mãozinha para sempre. Eu já te amo e mal posso esperar para te conhecer!</p>
-            <h2>Você aceita ser minha madrinha? 🥺💖</h2>
+            <p>Ainda sou bem pequenininho(a), mas meus pais me contaram que você é a pessoa <span class="destaque">mais incrível e doce do mundo.</span></p>
+            <p>Eles querem que você me guie para sempre. Você aceita ser minha madrinha? 🥺💖</p>
             
             <div class="botoes-container">
-                <button class="btn btn-sim" onclick="finalizar()">SIM!</button>
+                <button class="btn btn-sim" id="btnSim" onclick="finalizar()">SIM!</button>
                 <button id="btnNao" class="btn">Não</button>
             </div>
         </div>
 
         <div id="tela3" class="tela">
-            <h1 style="font-size: 40px;">EBAAA! 🎉</h1>
-            <p>O meu coraçãozinho já sabia que a resposta seria um <span class="destaque">SIM!</span></p>
-            <p>Prepare os braços para muitos abraços e o coração para muito amor. <strong>Já te amo um infinito, Dinda! ❤️</strong></p>
+            <h1 style="font-size: 35px;">EU SABIA! 🎉</h1>
+            <p>Meu coraçãozinho já está pulando de alegria! Prepare o colo, <span class="destaque">Dinda!</span></p>
+            <p><strong>Já te amo um infinito! ❤️</strong></p>
         </div>
 
     </div>
@@ -217,52 +186,42 @@
             document.body.classList.add('revelado');
             document.getElementById('tela1').classList.remove('ativa');
             document.getElementById('tela2').classList.add('ativa');
+            
+            // Reposiciona o botão NÃO inicialmente ao lado do SIM
+            const btnSim = document.getElementById('btnSim');
+            const btnNao = document.getElementById('btnNao');
+            btnNao.style.left = (btnSim.offsetLeft + btnSim.offsetWidth + 10) + 'px';
         }
 
-        // Lógica do botão fujão
         const btnNao = document.getElementById('btnNao');
-        
-        ['mouseover', 'touchstart'].forEach(evt => {
-            btnNao.addEventListener(evt, (e) => {
-                if(evt === 'touchstart') e.preventDefault();
-                const x = Math.random() * 240 - 120;
-                const y = Math.random() * 120 - 60;
-                btnNao.style.transform = `translate(${x}px, ${y}px)`;
-            });
-        });
+
+        function fugir() {
+            const area = document.querySelector('.botoes-container');
+            const maxX = area.clientWidth - btnNao.clientWidth;
+            const maxY = area.clientHeight - btnNao.clientHeight;
+
+            const novoX = Math.random() * maxX;
+            const novoY = Math.random() * maxY;
+
+            btnNao.style.left = novoX + 'px';
+            btnNao.style.top = novoY + 'px';
+        }
+
+        btnNao.addEventListener('mouseover', fugir);
+        btnNao.addEventListener('touchstart', (e) => { e.preventDefault(); fugir(); });
 
         function finalizar() {
             document.getElementById('tela2').classList.remove('ativa');
             document.getElementById('tela3').classList.add('ativa');
-            chuvaDeConfetes();
-        }
-
-        function chuvaDeConfetes() {
-            const duration = 5 * 1000;
-            const animationEnd = Date.now() + duration;
-
+            
+            const fim = Date.now() + 4000;
             (function frame() {
-                const timeLeft = animationEnd - Date.now();
-                if (timeLeft <= 0) return;
-
-                confetti({
-                    particleCount: 3,
-                    angle: 60,
-                    spread: 55,
-                    origin: { x: 0 },
-                    colors: ['#ff6b81', '#ffffff', '#ffd700']
-                });
-                confetti({
-                    particleCount: 3,
-                    angle: 120,
-                    spread: 55,
-                    origin: { x: 1 },
-                    colors: ['#ff6b81', '#ffffff', '#ffd700']
-                });
-
-                requestAnimationFrame(frame);
+                confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#ff6b81', '#ffd700'] });
+                confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ff6b81', '#ffd700'] });
+                if (Date.now() < fim) requestAnimationFrame(frame);
             }());
         }
     </script>
 </body>
 </html>
+
